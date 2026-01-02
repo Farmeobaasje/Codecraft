@@ -1,0 +1,50 @@
+De Cline Regels voor CodeCraft
+Doel: Deze regels zorgen ervoor dat elke ontwikkelingssessie productief is, de codekwaliteit hoog blijft, en we onze voortgang naadloos kunnen voortzetten, gesprek na gesprek.
+
+Regel 1: Definieer de Sessie-Task (De 'Wat' en 'Waarom')
+Voordat we ook maar één regel code schrijven, definiëren we helder en eenduidig wat het doel is van de huidige sessie.
+
+Formaat: "In deze sessie gaan we [specifieke actie] om [specifiek resultaat] te bereiken."
+Voorbeeld Goed: "In deze sessie gaan we de GitHubRepository klasse implementeren die data van de GitHub API haalt en in de Room database opslaat."
+Voorbeeld Slecht: "Laten we aan de data laag werken." (Te vaag)
+Waarom: Dit voorkomt dat we afdwalen en zorgt voor een duidelijk, haalbaar doel voor elke sessie.
+Regel 2: De CHANGELOG.md Mandate (Het Levend Logboek)
+Elke tastbare verandering aan de app wordt direct en consistent gedocumenteerd.
+
+Wanneer: Onmiddellijk nadat een feature is geïmplementeerd, een bug is opgelost, of een significante wijziging is doorgevoerd.
+Wat: Voeg een nieuwe entry toe onder een [Unreleased] sectie in CHANGELOG.md.
+Formaat (gebruik imperatief werkwoord):
+Added: Voor een compleet nieuwe feature.
+Added: User search functionality to find GitHub profiles.
+Fixed: Voor het oplossen van een bug.
+Fixed: The app no longer crashes when an empty username is submitted.
+Changed: Voor een wijziging in bestaande functionaliteit.
+Changed: Updated the repository list item to show the fork count.
+Deprecated: Voor functionaliteit die in de toekomst verwijderd wordt.
+Waarom: Dit creëert een automatisch gegenereerde, gedetailleerde geschiedenis van het project, perfect voor je portfolio en voor ons om de voortgang te zien.
+Regel 3: De Build & Test Gate (De Kwaliteitscontrole)
+Een taak is pas "klaar" als het project foutloos compileert en de tests slagen.
+
+De Actie: Voordat we een sessie afsluiten, voeren we de volgende commando's uit in de Android Studio Terminal:
+bash
+
+# Om de hele app te compileren en te controleren op fouten
+./gradlew build
+
+# Om alle unit- en integratietests uit te voeren
+./gradlew test
+Succescriterium: De output van beide commando's moet BUILD SUCCESSFUL zijn.
+Waarom: Dit is onze ultieme smeerolie. Het voorkomt dat we de code in een gebroken staat achterlaten. We bouwen altijd op een solide fundament.
+Regel 4: De Sessie Handoff Protocol (De Herstartknop)
+Aan het einde van elk gesprek, zal ik (Cline) een gestructureerde samenvatting geven. Dit is ons "save point".
+
+De Samenvatting bevat altijd drie onderdelen:
+Session Summary: Een korte alinea die beschrijft wat we hebben bereikt.
+Voorbeeld: "We hebben de multi-module structuur opgezet, alle dependencies in de build.gradle.kts-bestanden geconfigureerd en de Repo data class aangemaakt in de core:model module."
+Current Project State: Een snapshot van de huidige staat van de code.
+Voorbeeld: "Het project compileert succesvol. De UI is nog leeg. De data-laag is gedefinieerd maar nog niet geïmplementeerd. De CHANGELOG.md is bijgewerkt met de initiële setup."
+Next Steps: Een concrete, geprioriteerde lijst met taken voor de volgende sessie.
+Voorbeeld: "1. Implementeer de Room database in de data module. 2. Maak de RepoDao aan. 3. Schrijf de eerste unit test voor de DAO."
+Hoe je de volgende sessie start: Je kunt simpelweg zeggen:
+"Cline, laten we verder gaan met CodeCraft. De vorige sessie hebben we de projectstructuur opgezet. Wat is de volgende stap?"
+Dit geeft mij direct de volledige context om naadloos verder te gaan waar we gebleven zijn.
