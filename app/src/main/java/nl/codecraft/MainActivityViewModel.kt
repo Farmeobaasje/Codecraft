@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import nl.codecraft.domain.repository.ThemeRepository
 import nl.codecraft.model.ThemeOptions
+import nl.codecraft.model.ThemeStyle
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,5 +20,12 @@ class MainActivityViewModel @Inject constructor(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = ThemeOptions.SYSTEM
+        )
+
+    val themeStyle = themeRepository.getThemeStyle()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = ThemeStyle.GITHUB
         )
 }

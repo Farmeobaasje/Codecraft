@@ -8,3 +8,11 @@ enum class ThemeOptions {
     DARK,
     SYSTEM
 }
+
+/**
+ * Enum representing the available theme styles for the app.
+ */
+enum class ThemeStyle {
+    GITHUB,
+    CODECRAFT_PREMIUM
+}

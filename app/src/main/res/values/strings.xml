@@ -11,6 +11,8 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_system">System default</string>
+    <string name="theme_style_github">GitHub Theme</string>
+    <string name="theme_style_codecraft">CodeCraft Premium</string>
     
     <!-- Data & Storage Section -->
     <string name="data_storage_section_title">Data &amp; Storage</string>

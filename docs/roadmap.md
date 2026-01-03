@@ -21,7 +21,7 @@ Onze filosofie: **Profesionele Elegantie**. We bouwen een strak, krachtig en ver
 
 ## 📅 Phase 1: Gedetailleerde Roadmap (Android-Only)
 
-### **Huidige Status: Week 1-4 Compleet, Week 5 In Progress (40%) - Dependencies bijgewerkt naar state-of-the-art versies**
+### **Huidige Status: Week 1-4 Compleet, Week 5 Nog niet begonnen, Week 6 In Progress (40%)**
 
 ---
 
@@ -115,10 +115,58 @@ Onze filosofie: **Profesionele Elegantie**. We bouwen een strak, krachtig en ver
 
 ---
 
-### **Week 5: Polijsten, CI/CD & Deployen - De Finishing Touches**
+### **Week 5: De GitHub-Native UI/UX Masterclass**
+**Doel:** De app transformeren naar een state-of-the-art, visueel verbluffende ervaring die de look & feel van GitHub nabootst en functionaliteiten toevoegt die je zelfs op de website niet zo vindt.
+
+#### **Het Authentieke GitHub Thema**
+**Kleurenpalet:**
+- Primaire (Achtergrond): #0D1117 (GitHub Dark) en #FFFFFF (GitHub Light)
+- Accent (Actie/Links): #40C463 (GitHub Green)
+- Oppervlakken (Kaarten): #161B22, #21262D, #30363D
+- Borders: #30363D
+- Tekst (Primair): #C9D1D9
+- Tekst (Secundair): #8B949E
+- Fout: #F85149 (GitHub Red)
+- Waarschuwing: #D29922 (GitHub Orange)
+
+#### **De 3 "WOW" Functionaliteiten**
+
+🔲 **5.1 Het GitHub Thema Implementeren**  
+   - Analyseer het GitHub kleurenpalet en definieer alle Color objecten.
+   - Bouw de GitHubTheme.kt composable die het lichte en donkere thema beheert.
+   - Pas het thema toe op alle bestaande schermen en componenten.
+
+🔲 **5.2 Feature 1: Rich Markdown Rendering**  
+   - Integreer de Markdown library (bijv. compose-markdown).
+   - Voeg de /readme endpoint toe aan de GitHubApiService.
+   - Implementeer de logica om de README op te halen en te cachen.
+   - Vervang de Text composable op het RepositoryDetailScreen door de MarkdownText composable.
+
+🔲 **5.3 Feature 2: Interactieve Taalgrafiek**  
+   - Maak de grafiek in de InsightsScreen klikbaar.
+   - Implementeer de state-logica in de InsightsViewModel om de geselecteerde taal bij te houden.
+   - Voeg filtering-logica toe aan de RepoListViewModel en de GitHubRepository.
+   - Zorg dat navigeren van Insights naar de lijst de juiste filter meegeeft.
+
+🔲 **5.4 Feature 3: Lokale Bladwijzers (Bookmarks)**  
+   - Voeg de isBookmarked kolom toe aan de RepoEntity en RepoDao.
+   - Implementeer de toggleBookmarkUseCase en getBookmarkedReposUseCase.
+   - Voeg het ster-icoon en de bijbehorende logica toe aan de list items en het detailsscherm.
+   - Bouw het BookmarksScreen en voeg het toe aan de navigatie (bv. in de Profile-tab).
+
+🔲 **5.5 Finale UI-Polijst & Animaties**  
+   - Implementeer AnimatedContent voor soepele paginatransities.
+   - Voeg subtiele scale en alpha animaties toe aan interactieve elementen.
+   - Zorg voor een consistente typography en spacing die overeenkomt met GitHub's interface.
+
+**Definition of Done:** De app heeft een authentiek GitHub-thema en drie geavanceerde features die de gebruikerservaring transformeren. De UI is visueel verbluffend en technisch indrukwekkend. De CHANGELOG.md is bijgewerkt.
+
+---
+
+### **Week 6: Polijsten, CI/CD & Deployen - De Finishing Touches**
 **Doel:** De app transformeren van een werkend prototype naar een professioneel product en de wereld in sturen.
 
-✅ **5.1 Visuele Polijst**  
+✅ **6.1 Visuele Polijst**  
    - ✅ **Dependencies bijgewerkt naar state-of-the-art versies**:
      - Compose BOM: 2025.01.00
      - Compose Compiler: 1.5.14
@@ -140,15 +188,15 @@ Onze filosofie: **Profesionele Elegantie**. We bouwen een strak, krachtig en ver
    - ✅ **Experimental API warnings opgelost** met `@OptIn(ExperimentalFoundationApi::class)` annotaties
    - ✅ **Pull-to-refresh functionaliteit** geïmplementeerd in zowel RepoListScreen als TrendingScreen
 
-🔲 **5.2 CI/CD Pipeline (GitHub Actions)**  
+🔲 **6.2 CI/CD Pipeline (GitHub Actions)**  
    - Vul `.github/workflows/ci.yml` met de stappen: checkout, setup-java, run gradle build, run gradle test
    - Push de code en verifieer dat de workflow succesvol draait
    - Add release automation for APK generation
 
-🔲 **5.3 UI Tests**  
+🔲 **6.3 UI Tests**  
    - Schrijf een UI test die de volledige flow automatiseert: app opstarten, naam invoeren, op zoeken drukken, controleren of de lijst verschijnt, op een item tikken, controleren of het detailscherm verschijnt
 
-🔲 **5.4 Deployment**  
+🔲 **6.4 Deployment**  
    - Genereer een ondertekend APK-bestand
    - Maak een nieuwe tag in Git: `git tag v1.0.0`
    - Maak een nieuwe GitHub Release en upload het APK-bestand
@@ -166,16 +214,17 @@ Onze filosofie: **Profesionele Elegantie**. We bouwen een strak, krachtig en ver
 | **Week 2** | ⚠️ Bijna Compleet | 83% | Room, Retrofit, Repository, Use Cases (tests pending) |
 | **Week 3** | ✅ Compleet | 100% | Volledige UI met alle schermen en navigatie |
 | **Week 4** | ✅ Compleet | 100% | Premium features: Notities ✅, Trending ✅, Geavanceerd themabeheer ✅, Settings & DataStore ✅, UI Polish ✅ |
-| **Week 5** | ⚠️ In Progress | 40% | Dependencies bijgewerkt ✅, Experimental API warnings opgelost ✅, Pull-to-refresh geïmplementeerd ✅ |
+| **Week 5** | 🔲 Nog niet begonnen | 0% | GitHub Thema & 3 WOW Features |
+| **Week 6** | ⚠️ In Progress | 40% | Dependencies bijgewerkt ✅, Experimental API warnings opgelost ✅, Pull-to-refresh geïmplementeerd ✅ |
 
-**Totaal:** 85% compleet (Week 1-4 afgerond, Week 2.6 en Week 5.2-5.4 nog te doen)
+**Totaal:** 72% compleet (Week 1-4 afgerond, Week 2.6, Week 5 volledig, en Week 6.2-6.4 nog te doen)
 
 ---
 
 ## 🎯 Prioriteiten voor Volgende Sessie
 1. **Week 2.6**: Unit tests afronden voor GetUserReposUseCase en RepoMapper
-2. **Week 5.2**: CI/CD Pipeline implementeren met GitHub Actions
-3. **Week 5.3**: UI Tests schrijven voor kritieke flows
+2. **Week 5.1**: Het GitHub Thema Implementeren
+3. **Week 5.2**: Rich Markdown Rendering toevoegen
 
 ---
 

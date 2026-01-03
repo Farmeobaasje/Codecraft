@@ -9,6 +9,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import nl.codecraft.model.ThemeOptions
+import nl.codecraft.model.ThemeStyle
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -19,6 +20,7 @@ class SettingsDataStore(private val context: Context) {
 
     private object PreferencesKeys {
         val THEME_OPTION = stringPreferencesKey("theme_option")
+        val THEME_STYLE = stringPreferencesKey("theme_style")
     }
 
     /**
@@ -31,11 +33,29 @@ class SettingsDataStore(private val context: Context) {
         }
 
     /**
+     * Get the current theme style as a Flow.
+     */
+    val themeStyle: Flow<ThemeStyle> = context.dataStore.data
+        .map { preferences ->
+            val styleString = preferences[PreferencesKeys.THEME_STYLE] ?: ThemeStyle.GITHUB.name
+            ThemeStyle.valueOf(styleString)
+        }
+
+    /**
      * Update the theme option.
      */
     suspend fun updateThemeOption(themeOption: ThemeOptions) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.THEME_OPTION] = themeOption.name
+        }
+    }
+
+    /**
+     * Update the theme style.
+     */
+    suspend fun updateThemeStyle(themeStyle: ThemeStyle) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.THEME_STYLE] = themeStyle.name
         }
     }
 }
