@@ -11,10 +11,12 @@
 
 - **🔍 GitHub User Search** - Find any GitHub user by username
 - **📱 Repository Browser** - View user's repositories with detailed information
+- **🔥 Trending Repositories** - Discover trending repositories with pull-to-refresh
 - **🔄 Pull-to-Refresh** - Get the latest data with a simple swipe
 - **📊 Repository Details** - See stars, forks, language, description, and more
+- **📝 Repository Notes** - Add personal notes to repositories (offline storage)
 - **💾 Offline Caching** - Room database for offline access to previously viewed repositories
-- **🎨 Modern UI** - Material Design 3 with dynamic theming
+- **🎨 Modern UI** - Material Design 3 with dynamic theming and full-screen experience
 - **🧩 Clean Architecture** - Multi-module structure for maintainability
 - **⚡ Reactive Programming** - Kotlin Coroutines & Flow for responsive UI
 
@@ -57,17 +59,16 @@
 
 ## 📊 Project Status
 
-**Current Progress: 75% Complete**
+**Current Progress: 85% Complete**
 
 ### ✅ Completed
 - **Week 1: Foundation** - Multi-module structure, dependencies, Hilt setup, core models
 - **Week 2: Data & Logic** - Room database, Retrofit API, repository pattern, use cases
-- **Week 3: UI** - Material Design 3 theme, navigation, all screens (Search, List, Detail)
+- **Week 3: UI** - Material Design 3 theme, navigation, all screens (Search, List, Detail, Trending, Settings)
+- **Week 4: Advanced Features** - Repository notes, trending repositories, pull-to-refresh
+- **Week 5: UI Polish** - Full-screen experience, improved navigation, visual refinements
 
 ### 🚧 In Progress / Todo
-- **Week 2.6** - Unit tests for GetUserReposUseCase and RepoMapper
-- **Week 4** - Testing & Refactoring (Unit tests completion, code quality improvements)
-- **Week 5.1** - Visual polish (animations, accessibility improvements)
 - **Week 5.2** - CI/CD Pipeline (GitHub Actions)
 - **Week 5.3** - UI Tests (end-to-end test automation)
 - **Week 5.4** - Deployment (APK generation & GitHub Release)
@@ -126,6 +127,8 @@ CodeCraft follows **Clean Architecture** with a multi-module structure:
 - **Data Transfer Objects** - API response mapping
 - **Entity Objects** - Database representation
 - **Domain Models** - Core business models
+- **Theme Repository** - Dynamic theme switching (Light/Dark/System)
+- **Settings DataStore** - Persistent user preferences
 
 ## 📁 Project Structure
 
@@ -137,6 +140,8 @@ codecraft/
 │   │   │   ├── search/          # SearchScreen & SearchViewModel
 │   │   │   ├── repo_list/       # RepoListScreen & RepoListViewModel
 │   │   │   ├── repo_detail/     # RepoDetailScreen & RepoDetailViewModel
+│   │   │   ├── trending/        # TrendingScreen & TrendingViewModel
+│   │   │   ├── settings/        # SettingsScreen & SettingsViewModel
 │   │   │   ├── theme/           # Material Design 3 theming
 │   │   │   └── navigation/      # Navigation graph
 │   │   └── CodeCraftApplication.kt
@@ -144,12 +149,13 @@ codecraft/
 │   ├── src/main/java/nl/codecraft/data/
 │   │   ├── local/               # Room database (Entities, DAO)
 │   │   ├── remote/              # Retrofit API (DTOs, Service)
-│   │   ├── repository/          # GitHubRepository implementation
+│   │   ├── repository/          # GitHubRepository & ThemeRepository implementations
 │   │   ├── mapper/              # Data transformation mappers
+│   │   ├── local/               # Room database & DataStore
 │   │   └── di/                  # Dependency injection modules
 ├── domain/
 │   ├── src/main/java/nl/codecraft/domain/
-│   │   ├── repository/          # Repository interfaces
+│   │   ├── repository/          # Repository interfaces (GitHubRepository, ThemeRepository)
 │   │   ├── usecase/             # Business use cases
 │   │   └── model/               # Domain models (aliased from core:model)
 ├── core/
