@@ -80,3 +80,8 @@ Thumbs.db
 
 # Env files
 .env
+
+# Temporary Gradle files
+gradle-temp/
+gradle-8.10-bin.zip
+temp_apk_base64.txt
