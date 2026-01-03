@@ -65,70 +65,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Pull-to-refresh indicator refinements** with Material Design 3 PullToRefreshContainer
   - **Collapsing toolbar** on RepoDetailScreen using LargeTopAppBar with exitUntilCollapsedScrollBehavior
   - **Animated content size** for repository cards with smooth size transitions
-- **Updated dependencies to state-of-the-art versions** for Week 5:
-  - **Compose BOM**: Updated to 2025.01.00
-  - **Compose Compiler**: Updated to 1.5.14
-  - **Compose Material 3**: Updated to 1.2.1
-  - **Compose Navigation**: Updated to 2.8.1
-  - **Compose Hilt Navigation**: Updated to 1.2.0
-  - **Compose Foundation**: Updated to 1.6.7
-  - **Compose UI**: Updated to 1.6.7
-  - **Compose Runtime**: Updated to 1.6.7
-  - **Compose Material Icons Extended**: Updated to 1.6.7
-  - **Compose Animation**: Updated to 1.6.7
-  - **Compose UI Tooling**: Updated to 1.6.7
-  - **Compose UI Tooling Preview**: Updated to 1.6.7
-  - **Compose UI Test**: Updated to 1.6.7
-  - **Compose UI Test Manifest**: Updated to 1.6.7
-  - **Compose UI Test JUnit4**: Updated to 1.6.7
-  - **Compose UI Test JUnit5**: Updated to 1.6.7
-  - **Compose UI Test Espresso**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit4**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter API**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Engine**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Params**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Commons**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Engine**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Launcher**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Runner**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Api**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Engine**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Commons**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Engine**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Launcher**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Runner**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Api**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Engine**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Commons**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Engine**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Launcher**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Runner**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Suite**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Suite Api**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Suite Engine**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Suite Platform**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Suite Platform Commons**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Suite Platform Engine**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Suite Platform Launcher**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Suite Platform Runner**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Suite Platform Suite**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Suite Platform Suite Api**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Suite Platform Suite Engine**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Suite Platform Suite Platform**: Updated to 1.6.7
-  - **Compose UI Test Espresso Idling Resource Concurrent Android Test Runner JUnit5 Jupiter Platform Suite Platform Suite Platform Suite Platform Suite Platform Commons**: Updated to 1.6.7
-  - **Compose UI Test Espresso Id
+- **Added GitHub Native Theme** for Week 5.1 completion:
+  - **GitHub Dark Mode Colors**: Background (#0D1117), Surface cards (#161B22, #21262D, #30363D), Border (#30363D), Primary text (#C9D1D9), Secondary text (#8B949E), Accent green (#40C463), Error red (#F85149), Warning orange (#D29922)
+  - **GitHub Light Mode Colors**: Background (#FFFFFF), Surface cards (#F6F8FA, #EAECEF, #D0D7DE), Border (#EAECEF), Primary text (#24292F), Secondary text (#57606A), Accent green (#2DA44E), Error red (#CF222E), Warning orange (#9A6700)
+  - **Updated Color.kt** with comprehensive GitHub color palette for both dark and light modes
+  - **Updated Theme.kt** with GitHubDarkColorScheme and GitHubLightColorScheme using Material Design 3 color schemes
+  - **Maintained compatibility** with existing theme system and ThemeOptions (LIGHT, DARK, SYSTEM)
+- **Added CodeCraft Premium Theme** for Week 5.2 completion:
+  - **CodeCraft Premium Dark Mode Colors**: Background (#0A0A0A), Surface cards (#1A1A1A, #2A2A2A, #3A3A3A), Border (#3A3A3A), Primary text (#E0E0E0), Secondary text (#A0A0A0), Accent purple (#7C3AED), Error red (#EF4444), Warning orange (#F59E0B)
+  - **CodeCraft Premium Light Mode Colors**: Background (#FFFFFF), Surface cards (#F8FAFC, #F1F5F9, #E2E8F0), Border (#E2E8F0), Primary text (#1E293B), Secondary text (#64748B), Accent purple (#7C3AED), Error red (#DC2626), Warning orange (#D97706)
+  - **Extended ThemeOptions with ThemeStyle**: Added ThemeStyle enum (GITHUB, CODECRAFT_PREMIUM) for theme style selection
+  - **Updated Color.kt** with CodeCraft Premium color palette for both dark and light modes
+  - **Updated Theme.kt** with CodeCraftDarkColorScheme and CodeCraftLightColorScheme using Material Design 3 color schemes
+  - **Updated ThemeRepository** to support theme style selection with DataStore persistence
+  - **Updated MainActivityViewModel** to expose both themeOption and themeStyle as StateFlow
+  - **Updated MainActivity** to use both themeOption and themeStyle in CodeCraftTheme
+  - **Updated SettingsViewModel** to support theme style selection and updates
+  - **Enhanced SettingsScreen** with theme style selection UI (GitHub Theme vs CodeCraft Premium)
+  - **Added string resources** for theme style selection UI
+  - **Maintained backward compatibility** with existing theme system while adding premium theme support
 
 ### Fixed
 - Diagnosed missing `gradle-wrapper.jar` issue that was preventing Gradle builds. The file was missing from the `gradle/wrapper` directory, causing "Could not find or load main class org.gradle.wrapper.GradleWrapperMain" error.

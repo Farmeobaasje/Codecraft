@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import nl.codecraft.domain.repository.ThemeRepository
 import nl.codecraft.model.ThemeOptions
+import nl.codecraft.model.ThemeStyle
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,9 +23,22 @@ class SettingsViewModel @Inject constructor(
             initialValue = ThemeOptions.SYSTEM
         )
 
+    val themeStyle = themeRepository.getThemeStyle()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = ThemeStyle.GITHUB
+        )
+
     fun updateThemeOption(themeOption: ThemeOptions) {
         viewModelScope.launch {
             themeRepository.updateThemeOption(themeOption)
+        }
+    }
+
+    fun updateThemeStyle(themeStyle: ThemeStyle) {
+        viewModelScope.launch {
+            themeRepository.updateThemeStyle(themeStyle)
         }
     }
 }

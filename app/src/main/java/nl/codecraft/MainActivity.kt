@@ -10,8 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import nl.codecraft.model.ThemeOptions
+import nl.codecraft.model.ThemeStyle
 import nl.codecraft.ui.navigation.CodeCraftNavigation
 import nl.codecraft.ui.theme.CodeCraftTheme
 
@@ -19,6 +22,10 @@ import nl.codecraft.ui.theme.CodeCraftTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Enable edge-to-edge display
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        
         setContent {
             AppContent()
         }
@@ -28,9 +35,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppContent() {
     val viewModel: MainActivityViewModel = hiltViewModel()
-    val themeOption by viewModel.themeOption.collectAsState(initial = nl.codecraft.model.ThemeOptions.SYSTEM)
+    val themeOption by viewModel.themeOption.collectAsState(initial = ThemeOptions.SYSTEM)
+    val themeStyle by viewModel.themeStyle.collectAsState(initial = ThemeStyle.GITHUB)
     
-    CodeCraftTheme(themeOption = themeOption) {
+    CodeCraftTheme(themeOption = themeOption, themeStyle = themeStyle) {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background

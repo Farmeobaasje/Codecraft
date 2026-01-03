@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import nl.codecraft.R
 import nl.codecraft.model.ThemeOptions
+import nl.codecraft.model.ThemeStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,6 +35,7 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val themeOption by viewModel.themeOption.collectAsState(initial = ThemeOptions.SYSTEM)
+    val themeStyle by viewModel.themeStyle.collectAsState(initial = ThemeStyle.GITHUB)
 
     Scaffold(
         topBar = {
@@ -64,6 +66,28 @@ fun SettingsScreen(
                 style = MaterialTheme.typography.titleMedium
             )
 
+            // Theme Style Selection
+            Text(
+                text = "Theme Style",
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+
+            ThemeStyle.values().forEach { style ->
+                ThemeStyleItem(
+                    style = style,
+                    isSelected = themeStyle == style,
+                    onStyleSelected = { viewModel.updateThemeStyle(style) }
+                )
+            }
+
+            // Theme Mode Selection
+            Text(
+                text = "Theme Mode",
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+
             ThemeOptions.values().forEach { option ->
                 ThemeOptionItem(
                     option = option,
@@ -75,13 +99,15 @@ fun SettingsScreen(
             // Data & Storage Section
             Text(
                 text = stringResource(R.string.data_storage_section_title),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(top = 24.dp)
             )
 
             // About Section
             Text(
                 text = stringResource(R.string.about_section_title),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(top = 24.dp)
             )
         }
     }
@@ -106,6 +132,31 @@ private fun ThemeOptionItem(
                 ThemeOptions.LIGHT -> stringResource(R.string.theme_light)
                 ThemeOptions.DARK -> stringResource(R.string.theme_dark)
                 ThemeOptions.SYSTEM -> stringResource(R.string.theme_system)
+            },
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(start = 48.dp)
+        )
+    }
+}
+
+@Composable
+private fun ThemeStyleItem(
+    style: ThemeStyle,
+    isSelected: Boolean,
+    onStyleSelected: () -> Unit
+) {
+    Column(
+        modifier = Modifier.padding(vertical = 8.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        RadioButton(
+            selected = isSelected,
+            onClick = onStyleSelected
+        )
+        Text(
+            text = when (style) {
+                ThemeStyle.GITHUB -> stringResource(R.string.theme_style_github)
+                ThemeStyle.CODECRAFT_PREMIUM -> stringResource(R.string.theme_style_codecraft)
             },
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(start = 48.dp)
