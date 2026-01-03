@@ -84,4 +84,7 @@ Thumbs.db
 # Temporary Gradle files
 gradle-temp/
 gradle-8.10-bin.zip
+temp-gradle/
+temp-gradle-wrapper/
+temp-wrapper/
 temp_apk_base64.txt
