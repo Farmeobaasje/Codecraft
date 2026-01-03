@@ -4,20 +4,28 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -76,13 +84,10 @@ fun SettingsScreen(
             modifier = Modifier.padding(top = 8.dp)
         )
 
-        ThemeStyle.values().forEach { style ->
-            ThemeStyleItem(
-                style = style,
-                isSelected = themeStyle == style,
-                onStyleSelected = { viewModel.updateThemeStyle(style) }
-            )
-        }
+        ThemeStyleDropdown(
+            selectedStyle = themeStyle,
+            onStyleSelected = { viewModel.updateThemeStyle(it) }
+        )
 
         // Theme Mode Selection
         Text(
@@ -91,13 +96,10 @@ fun SettingsScreen(
             modifier = Modifier.padding(top = 16.dp)
         )
 
-        ThemeOptions.values().forEach { option ->
-            ThemeOptionItem(
-                option = option,
-                isSelected = themeOption == option,
-                onOptionSelected = { viewModel.updateThemeOption(option) }
-            )
-        }
+        ThemeModeDropdown(
+            selectedOption = themeOption,
+            onOptionSelected = { viewModel.updateThemeOption(it) }
+        )
 
         // Data & Storage Section
         Text(
@@ -163,5 +165,105 @@ private fun ThemeStyleItem(
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(start = 48.dp)
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ThemeStyleDropdown(
+    selectedStyle: ThemeStyle,
+    onStyleSelected: (ThemeStyle) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }
+    ) {
+        TextField(
+            modifier = Modifier
+                .menuAnchor()
+                .fillMaxWidth(),
+            readOnly = true,
+            value = when (selectedStyle) {
+                ThemeStyle.GITHUB -> stringResource(R.string.theme_style_github)
+                ThemeStyle.CODECRAFT_PREMIUM -> stringResource(R.string.theme_style_codecraft)
+            },
+            onValueChange = {},
+            label = { Text("Select theme style") },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            colors = ExposedDropdownMenuDefaults.textFieldColors()
+        )
+        
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            ThemeStyle.values().forEach { style ->
+                DropdownMenuItem(
+                    text = { 
+                        Text(when (style) {
+                            ThemeStyle.GITHUB -> stringResource(R.string.theme_style_github)
+                            ThemeStyle.CODECRAFT_PREMIUM -> stringResource(R.string.theme_style_codecraft)
+                        })
+                    },
+                    onClick = {
+                        onStyleSelected(style)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ThemeModeDropdown(
+    selectedOption: ThemeOptions,
+    onOptionSelected: (ThemeOptions) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }
+    ) {
+        TextField(
+            modifier = Modifier
+                .menuAnchor()
+                .fillMaxWidth(),
+            readOnly = true,
+            value = when (selectedOption) {
+                ThemeOptions.LIGHT -> stringResource(R.string.theme_light)
+                ThemeOptions.DARK -> stringResource(R.string.theme_dark)
+                ThemeOptions.SYSTEM -> stringResource(R.string.theme_system)
+            },
+            onValueChange = {},
+            label = { Text("Select theme mode") },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            colors = ExposedDropdownMenuDefaults.textFieldColors()
+        )
+        
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            ThemeOptions.values().forEach { option ->
+                DropdownMenuItem(
+                    text = { 
+                        Text(when (option) {
+                            ThemeOptions.LIGHT -> stringResource(R.string.theme_light)
+                            ThemeOptions.DARK -> stringResource(R.string.theme_dark)
+                            ThemeOptions.SYSTEM -> stringResource(R.string.theme_system)
+                        })
+                    },
+                    onClick = {
+                        onOptionSelected(option)
+                        expanded = false
+                    }
+                )
+            }
+        }
     }
 }

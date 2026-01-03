@@ -84,6 +84,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Enhanced SettingsScreen** with theme style selection UI (GitHub Theme vs CodeCraft Premium)
   - **Added string resources** for theme style selection UI
   - **Maintained backward compatibility** with existing theme system while adding premium theme support
+  - **Refactored SettingsScreen UI** for Week 5.3 completion:
+    - **Replaced RadioButton lists** with modern ExposedDropdownMenuBox components for both Theme Style and Theme Mode selections
+    - **Added ThemeStyleDropdown component** with compact dropdown UI for selecting between GitHub Theme and CodeCraft Premium
+    - **Added ThemeModeDropdown component** with compact dropdown UI for selecting between Light, Dark, and System default modes
+    - **Improved user experience** with cleaner, more modern UI that reduces visual clutter and takes less vertical space
+    - **Maintained full functionality** with DataStore persistence and real-time theme updates
 
 ### Fixed
 - Diagnosed missing `gradle-wrapper.jar` issue that was preventing Gradle builds. The file was missing from the `gradle/wrapper` directory, causing "Could not find or load main class org.gradle.wrapper.GradleWrapperMain" error.
