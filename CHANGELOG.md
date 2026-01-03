@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Added CodeCraft-beta1 release APK** with debug signing configuration for initial beta testing.
 - Added `.clinerules` file with development session rules for Cline AI assistant.
 - Added multi-module Android project structure with :app, :data, :domain, :core:model, :core:common modules.
 - Configured Gradle with version catalog (libs.versions.toml) and all necessary dependencies.
