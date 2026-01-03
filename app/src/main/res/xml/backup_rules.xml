@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!--
+    Backup entire app except for files that contain sensitive info
+    that shouldn't be backed up.
+    -->
+    <include domain="sharedpref" path="."/>
+    <exclude domain="sharedpref" path="sensitive_data.xml"/>
+    <include domain="database" path="."/>
+    <include domain="file" path="."/>
+    <exclude domain="file" path="no_backup/"/>
+    <include domain="external" path="."/>
+</full-backup-content>
