@@ -103,6 +103,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - **Updated RepoListViewModel** to use GitHubRepository directly instead of GetUserReposUseCase for refresh functionality.
 - **Fixed SearchViewModel bug**: Changed SearchViewModel to inject GitHubRepository directly and call `refreshUserRepos(username)` instead of `getUserReposUseCase(username)` which was returning a Flow without collecting it. This fixes the "no repositories found" issue when searching for GitHub users.
+- **Removed purple status bar and TopAppBars**: Updated all screens (SettingsScreen, SearchScreen, TrendingScreen, RepoListScreen, RepoDetailScreen) to use custom headers instead of Material 3 TopAppBars for a cleaner, full-screen design with better window insets handling.
 
 **Current Status:**
 - ✅ `gradlew` command now works (uses fallback to direct Gradle distribution)

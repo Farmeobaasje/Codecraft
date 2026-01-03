@@ -107,36 +107,24 @@ fun TrendingScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Trending Repositories",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { viewModel.refresh() },
-                modifier = Modifier.padding(16.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Refresh,
-                    contentDescription = "Refresh trending"
-                )
-            }
-        }
-    ) { paddingValues ->
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        // Title row
+        Text(
+            text = "Trending Repositories",
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 16.dp)
+        )
+        
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
                 .nestedScroll(nestedScrollConnection)
         ) {
             // Pull-to-refresh indicator
@@ -217,30 +205,29 @@ fun TrendingScreen(
                             items = state.repos,
                             key = { _, repo -> repo.id }
                         ) { index, repo ->
-                            AnimatedVisibility(
-                                visible = true,
-                                enter = fadeIn(
-                                    animationSpec = tween(
-                                        durationMillis = 300,
-                                        delayMillis = index * 50
-                                    )
-                                ) + slideInVertically(
-                                    animationSpec = tween(
-                                        durationMillis = 300,
-                                        delayMillis = index * 50
-                                    ),
-                                    initialOffsetY = { it / 2 }
-                                ),
-                                modifier = Modifier.animateItemPlacement()
-                            ) {
-                                TrendingRepoItem(
-                                    repo = repo,
-                                    onClick = { onNavigateToRepoDetail(repo) }
-                                )
-                            }
+                            TrendingRepoItem(
+                                repo = repo,
+                                onClick = { onNavigateToRepoDetail(repo) }
+                            )
                         }
                     }
                 }
+            }
+        }
+        
+        // Floating Action Button for refresh
+        androidx.compose.foundation.layout.Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomEnd
+        ) {
+            FloatingActionButton(
+                onClick = { viewModel.refresh() },
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Refresh,
+                    contentDescription = "Refresh trending"
+                )
             }
         }
     }

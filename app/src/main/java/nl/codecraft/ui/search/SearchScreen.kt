@@ -2,12 +2,14 @@ package nl.codecraft.ui.search
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
@@ -23,7 +25,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -57,124 +58,121 @@ fun SearchScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "CodeCraft",
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                actions = {
-                    IconButton(onClick = onNavigateToSettings) {
-                        Icon(
-                            imageVector = Icons.Default.Settings,
-                            contentDescription = "Settings"
-                        )
-                    }
-                }
-            )
-        },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { paddingValues ->
-        Column(
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        // Header row with title and settings button
+        Row(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .fillMaxWidth()
+                .padding(bottom = 32.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "Search",
-                modifier = Modifier.size(80.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
-
-            Spacer(modifier = Modifier.height(32.dp))
-
             Text(
-                text = "Find GitHub Repositories",
-                style = MaterialTheme.typography.headlineMedium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                text = "CodeCraft",
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold
             )
+            IconButton(onClick = onNavigateToSettings) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Settings"
+                )
+            }
+        }
 
-            Spacer(modifier = Modifier.height(8.dp))
+        Icon(
+            imageVector = Icons.Default.Search,
+            contentDescription = "Search",
+            modifier = Modifier.size(80.dp),
+            tint = MaterialTheme.colorScheme.primary
+        )
 
-            Text(
-                text = "Enter a GitHub username to explore their repositories",
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.fillMaxWidth()
-            )
+        Spacer(modifier = Modifier.height(32.dp))
 
-            Spacer(modifier = Modifier.height(48.dp))
+        Text(
+            text = "Find GitHub Repositories",
+            style = MaterialTheme.typography.headlineMedium,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
 
-            OutlinedTextField(
-                value = searchQuery.value,
-                onValueChange = { viewModel.updateSearchQuery(it) },
-                label = { Text("GitHub Username") },
-                placeholder = { Text("e.g., farmeobaasje") },
-                singleLine = true,
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = "Enter a GitHub username to explore their repositories",
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(48.dp))
+
+        OutlinedTextField(
+            value = searchQuery.value,
+            onValueChange = { viewModel.updateSearchQuery(it) },
+            label = { Text("GitHub Username") },
+            placeholder = { Text("e.g., farmeobaasje") },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth(),
+            isError = error.value != null
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        if (isLoading.value) {
+            CircularProgressIndicator()
+        } else {
+            Column(
                 modifier = Modifier.fillMaxWidth(),
-                isError = error.value != null
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            if (isLoading.value) {
-                CircularProgressIndicator()
-            } else {
-                Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Button(
+                    onClick = {
+                        viewModel.search(searchQuery.value) {
+                            onNavigateToRepoList(searchQuery.value)
+                        }
+                    },
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    enabled = searchQuery.value.isNotBlank()
                 ) {
-                    Button(
-                        onClick = {
-                            viewModel.search(searchQuery.value) {
-                                onNavigateToRepoList(searchQuery.value)
-                            }
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        enabled = searchQuery.value.isNotBlank()
-                    ) {
-                        Text("Search Repositories")
-                    }
+                    Text("Search Repositories")
+                }
 
-                    Button(
-                        onClick = onNavigateToTrending,
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                        )
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Whatshot,
-                            contentDescription = "Trending",
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.size(8.dp))
-                        Text("View Trending Repositories")
-                    }
+                Button(
+                    onClick = onNavigateToTrending,
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Whatshot,
+                        contentDescription = "Trending",
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.size(8.dp))
+                    Text("View Trending Repositories")
                 }
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "Built with Clean Architecture & Jetpack Compose",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.outline,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = "Built with Clean Architecture & Jetpack Compose",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.outline,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }

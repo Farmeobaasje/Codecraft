@@ -11,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import nl.codecraft.model.ThemeOptions
@@ -25,6 +26,11 @@ class MainActivity : ComponentActivity() {
         
         // Enable edge-to-edge display
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        
+        // Hide status bar and navigation bar for full-screen experience
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        windowInsetsController.hide(androidx.core.view.WindowInsetsCompat.Type.systemBars())
         
         setContent {
             AppContent()
