@@ -11,8 +11,10 @@ import nl.codecraft.data.local.AppDatabase
 import nl.codecraft.data.local.RepoDao
 import nl.codecraft.data.local.RepoNoteDao
 import nl.codecraft.data.local.SettingsDataStore
+import nl.codecraft.domain.repository.AuthRepository
 import nl.codecraft.domain.repository.GitHubRepository
 import nl.codecraft.domain.repository.ThemeRepository
+import nl.codecraft.data.repository.AuthRepositoryImpl
 import nl.codecraft.data.repository.GitHubRepositoryImpl
 import nl.codecraft.data.repository.ThemeRepositoryImpl
 import javax.inject.Singleton
@@ -63,5 +65,14 @@ object DataModule {
         apiService: nl.codecraft.data.remote.GitHubApiService
     ): GitHubRepository {
         return GitHubRepositoryImpl(repoDao, repoNoteDao, apiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(
+        @ApplicationContext context: Context,
+        settingsDataStore: SettingsDataStore
+    ): AuthRepository {
+        return AuthRepositoryImpl(context, settingsDataStore)
     }
 }

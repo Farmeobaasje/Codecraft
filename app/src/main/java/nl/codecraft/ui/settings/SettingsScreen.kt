@@ -10,7 +10,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Login
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -47,6 +50,7 @@ fun SettingsScreen(
     val themeOption by viewModel.themeOption.collectAsState(initial = ThemeOptions.SYSTEM)
     val themeStyle by viewModel.themeStyle.collectAsState(initial = ThemeStyle.GITHUB)
     val defaultUsername by viewModel.defaultUsername.collectAsState(initial = null)
+    val isAuthenticated by viewModel.isAuthenticated.collectAsState(initial = false)
     
     var usernameInput by remember { mutableStateOf("") }
     
@@ -151,6 +155,53 @@ fun SettingsScreen(
         if (defaultUsername != null) {
             Text(
                 text = "Current default: $defaultUsername",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
+
+        // GitHub Authentication
+        Text(
+            text = "GitHub Authentication",
+            style = MaterialTheme.typography.titleSmall,
+            modifier = Modifier.padding(top = 16.dp)
+        )
+
+        if (isAuthenticated) {
+            // User is authenticated - show logout button
+            Button(
+                onClick = { viewModel.logout() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Logout,
+                    contentDescription = "Logout",
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+                Text("Logout from GitHub")
+            }
+            Text(
+                text = "You are logged in with GitHub",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        } else {
+            // User is not authenticated - show login button
+            Button(
+                onClick = { viewModel.login() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Login,
+                    contentDescription = "Login",
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+                Text("Login with GitHub")
+            }
+            Text(
+                text = "Login to increase API rate limits and access private repos",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 4.dp)

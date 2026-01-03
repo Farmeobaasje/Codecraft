@@ -23,6 +23,8 @@ androidx-test = "1.5.0"
 androidx-test-ext = "1.1.5"
 androidx-espresso = "3.5.1"
 
+androidx-browser = "1.8.0"
+
 coroutines = "1.8.1"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
@@ -106,6 +108,9 @@ compose-markdown = { module = "com.github.jeziellago:compose-markdown", version.
 
 # Timber Logging
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+
+# Browser
+androidx-browser = { module = "androidx.browser:browser", version.ref = "androidx-browser" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

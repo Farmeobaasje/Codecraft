@@ -22,6 +22,7 @@ class SettingsDataStore(private val context: Context) {
         val THEME_OPTION = stringPreferencesKey("theme_option")
         val THEME_STYLE = stringPreferencesKey("theme_style")
         val DEFAULT_USERNAME = stringPreferencesKey("default_username")
+        val GITHUB_ACCESS_TOKEN = stringPreferencesKey("github_access_token")
     }
 
     /**
@@ -51,6 +52,14 @@ class SettingsDataStore(private val context: Context) {
         }
 
     /**
+     * Get the GitHub access token as a Flow.
+     */
+    val githubAccessToken: Flow<String?> = context.dataStore.data
+        .map { preferences ->
+            preferences[PreferencesKeys.GITHUB_ACCESS_TOKEN]
+        }
+
+    /**
      * Update the theme option.
      */
     suspend fun updateThemeOption(themeOption: ThemeOptions) {
@@ -77,6 +86,19 @@ class SettingsDataStore(private val context: Context) {
                 preferences[PreferencesKeys.DEFAULT_USERNAME] = username
             } else {
                 preferences.remove(PreferencesKeys.DEFAULT_USERNAME)
+            }
+        }
+    }
+
+    /**
+     * Update the GitHub access token.
+     */
+    suspend fun updateGithubAccessToken(token: String?) {
+        context.dataStore.edit { preferences ->
+            if (token != null) {
+                preferences[PreferencesKeys.GITHUB_ACCESS_TOKEN] = token
+            } else {
+                preferences.remove(PreferencesKeys.GITHUB_ACCESS_TOKEN)
             }
         }
     }

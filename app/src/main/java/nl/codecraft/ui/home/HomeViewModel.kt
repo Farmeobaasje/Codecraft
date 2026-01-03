@@ -83,6 +83,20 @@ class HomeViewModel @Inject constructor(
             try {
                 gitHubRepository.getUserRepos(username).collect { repos ->
                     Timber.d("loadUserRepos success: ${repos.size} repos loaded")
+                    
+                    // If no repos found in database, try to refresh from API
+                    if (repos.isEmpty()) {
+                        Timber.d("No repos found in database, refreshing from API")
+                        try {
+                            gitHubRepository.refreshUserRepos(username)
+                            // The flow will emit again after refresh, so we don't need to update UI here
+                            return@collect
+                        } catch (refreshError: Exception) {
+                            Timber.e(refreshError, "Failed to refresh repos from API")
+                            // Continue with empty list if refresh fails
+                        }
+                    }
+                    
                     val repoCount = repos.size
                     val totalStars = repos.sumBy { it.stargazersCount }
                     

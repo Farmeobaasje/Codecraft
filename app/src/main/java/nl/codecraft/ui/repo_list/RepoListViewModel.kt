@@ -44,6 +44,17 @@ class RepoListViewModel @Inject constructor(
             _uiState.value = RepoListUiState.Loading
             try {
                 repository.getUserRepos(username).collectLatest { repos ->
+                    // If no repos found in database, try to refresh from API
+                    if (repos.isEmpty()) {
+                        try {
+                            repository.refreshUserRepos(username)
+                            // The flow will emit again after refresh, so we don't need to update UI here
+                            return@collectLatest
+                        } catch (refreshError: Exception) {
+                            // Continue with empty list if refresh fails
+                        }
+                    }
+                    
                     val filteredRepos = applyLanguageFilter(repos)
                     if (filteredRepos.isEmpty()) {
                         _uiState.value = RepoListUiState.Empty

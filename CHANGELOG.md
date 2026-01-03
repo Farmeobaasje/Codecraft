@@ -141,6 +141,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Enhanced debugging capabilities** with lifecycle tracking, state changes, and API call monitoring
 - **Fixed HomeScreen crash** caused by nested scrolling issue where LazyColumn was placed inside a Column with verticalScroll modifier, creating infinite height constraints. Replaced LazyColumn with regular Column for the "Recent Repositories" section since only 5 items are displayed.
 - **Fixed HomeScreen showing wrong user's repositories**: Updated RepoDao and GitHubRepositoryImpl to filter repositories by username (ownerLogin) instead of returning all repositories from database. This ensures the HomeScreen shows repositories for the default username from settings, not the last searched user.
+- **Fixed empty repository list on app startup**: Updated HomeViewModel and RepoListViewModel to automatically refresh repositories from GitHub API when the local database is empty. This ensures that when the app starts with a saved username, repositories are automatically fetched and displayed instead of showing an empty list.
+- **Fixed HTTP 403 Forbidden errors**: Added User-Agent header to all GitHub API requests in NetworkModule.kt to comply with GitHub API requirements. This resolves the "HTTP 403" errors that were preventing repository loading for saved users and search functionality.
+- **Added GitHub OAuth authentication** to resolve API rate limiting and 403 errors:
+  - **Added androidx.browser dependency** for Custom Tabs OAuth flow
+  - **Implemented AuthRepository with PKCE flow** for secure GitHub authentication
+  - **Added LoginUseCase and LogoutUseCase** for domain layer authentication operations
+  - **Updated SettingsDataStore** with GitHub access token storage
+  - **Updated NetworkModule** with token authorization interceptor that automatically adds Bearer tokens to API requests
+  - **Added login UI to SettingsScreen** with login/logout buttons and authentication status display
+  - **Added deep link intent-filter to AndroidManifest** for OAuth callback handling
+  - **Implemented OAuth callback handling** in MainActivity with deep link parsing and token exchange
+  - **Fixed Dagger/Hilt dependency injection** for AuthRepository and Context bindings
+  - **Fixed crash in login flow** by adding FLAG_ACTIVITY_NEW_TASK flag to CustomTabsIntent when launching from Application context
 
 ### Fixed
 - Diagnosed missing `gradle-wrapper.jar` issue that was preventing Gradle builds. The file was missing from the `gradle/wrapper` directory, causing "Could not find or load main class org.gradle.wrapper.GradleWrapperMain" error.
@@ -156,6 +169,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Fixed unresolved reference errors** by updating imports from `nl.codecraft.domain.model.Repo` to `nl.codecraft.model.Repo`.
 - **Fixed smart cast issue** in RepoListScreen.kt by using safe call operator for nullable description.
 - **Fixed experimental API warnings** by adding proper `@OptIn` annotations.
+- **Fixed MainActivity compilation error**: Corrected `onNewIntent` method signature from `Intent?` to `Intent` to properly override ComponentActivity method.
 
 ### Changed
 - **Updated RepoListViewModel** to use GitHubRepository directly instead of GetUserReposUseCase for refresh functionality.
@@ -167,4 +181,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✅ JVM version incompatibility resolved
 - ✅ AndroidX configuration added
 - ✅ Android resource linking errors fixed (missing resources created)
-- ✅ `GitHubRepository` import fixed in DataModule (build now
+- ✅ `GitHubRepository` import fixed in DataModule (build now successful)
+- ✅ GitHub OAuth authentication implemented to resolve API rate limiting
+- ✅ Project builds successfully with all authentication features
