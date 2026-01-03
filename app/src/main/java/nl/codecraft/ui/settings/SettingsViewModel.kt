@@ -30,6 +30,13 @@ class SettingsViewModel @Inject constructor(
             initialValue = ThemeStyle.GITHUB
         )
 
+    val defaultUsername = themeRepository.getDefaultUsername()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = null
+        )
+
     fun updateThemeOption(themeOption: ThemeOptions) {
         viewModelScope.launch {
             themeRepository.updateThemeOption(themeOption)
@@ -39,6 +46,12 @@ class SettingsViewModel @Inject constructor(
     fun updateThemeStyle(themeStyle: ThemeStyle) {
         viewModelScope.launch {
             themeRepository.updateThemeStyle(themeStyle)
+        }
+    }
+
+    fun updateDefaultUsername(username: String?) {
+        viewModelScope.launch {
+            themeRepository.updateDefaultUsername(username)
         }
     }
 }

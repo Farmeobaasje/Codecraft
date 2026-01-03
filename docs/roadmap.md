@@ -21,7 +21,7 @@ Onze filosofie: **Profesionele Elegantie**. We bouwen een strak, krachtig en ver
 
 ## 📅 Phase 1: Gedetailleerde Roadmap (Android-Only)
 
-### **Huidige Status: Week 1-4 Compleet, Week 5 Nog niet begonnen, Week 6 In Progress (40%)**
+### **Huidige Status: Week 1-4 Compleet, Week 5 In Progress (40%), Week 6 In Progress (40%)**
 
 ---
 
@@ -131,22 +131,36 @@ Onze filosofie: **Profesionele Elegantie**. We bouwen een strak, krachtig en ver
 
 #### **De 3 "WOW" Functionaliteiten**
 
-🔲 **5.1 Het GitHub Thema Implementeren**  
-   - Analyseer het GitHub kleurenpalet en definieer alle Color objecten.
-   - Bouw de GitHubTheme.kt composable die het lichte en donkere thema beheert.
-   - Pas het thema toe op alle bestaande schermen en componenten.
+✅ **5.1 Het GitHub Thema Implementeren**  
+   - ✅ **GitHub Dark Mode Colors**: Background (#0D1117), Surface cards (#161B22, #21262D, #30363D), Border (#30363D), Primary text (#C9D1D9), Secondary text (#8B949E), Accent green (#40C463), Error red (#F85149), Warning orange (#D29922)
+   - ✅ **GitHub Light Mode Colors**: Background (#FFFFFF), Surface cards (#F6F8FA, #EAECEF, #D0D7DE), Border (#EAECEF), Primary text (#24292F), Secondary text (#57606A), Accent green (#2DA44E), Error red (#CF222E), Warning orange (#9A6700)
+   - ✅ **Updated Color.kt** with comprehensive GitHub color palette for both dark and light modes
+   - ✅ **Updated Theme.kt** with GitHubDarkColorScheme and GitHubLightColorScheme using Material Design 3 color schemes
+   - ✅ **Maintained compatibility** with existing theme system and ThemeOptions (LIGHT, DARK, SYSTEM)
 
-🔲 **5.2 Feature 1: Rich Markdown Rendering**  
-   - Integreer de Markdown library (bijv. compose-markdown).
-   - Voeg de /readme endpoint toe aan de GitHubApiService.
-   - Implementeer de logica om de README op te halen en te cachen.
-   - Vervang de Text composable op het RepositoryDetailScreen door de MarkdownText composable.
+✅ **5.2 Feature 1: Rich Markdown Rendering**  
+   - ✅ **Added GitHub API README endpoint** (GET /repos/{owner}/{repo}/readme) to GitHubApiService
+   - ✅ **Added ReadmeDto** for parsing GitHub README API responses with base64 content decoding support
+   - ✅ **Extended GitHubRepository interface** with `getReadme(owner: String, repo: String): String?` method
+   - ✅ **Updated GitHubRepositoryImpl** to implement README functionality with base64 decoding and error handling
+   - ✅ **Added GetReadmeUseCase** for domain layer README operations
+   - ✅ **Updated RepoDetailViewModel** with ReadmeState (Loading, Success, Error, Empty) and `loadReadme()` method
+   - ✅ **Enhanced RepoDetailScreen** with README section featuring plain text rendering (Markdown dependency temporarily removed due to dependency resolution issues)
+   - ✅ **Added README UI components** including loading states, error handling, and empty state
+   - ✅ **Fixed dependency resolution issues** by temporarily removing compose-markdown library and using plain text rendering as fallback
 
-🔲 **5.3 Feature 2: Interactieve Taalgrafiek**  
-   - Maak de grafiek in de InsightsScreen klikbaar.
-   - Implementeer de state-logica in de InsightsViewModel om de geselecteerde taal bij te houden.
-   - Voeg filtering-logica toe aan de RepoListViewModel en de GitHubRepository.
-   - Zorg dat navigeren van Insights naar de lijst de juiste filter meegeeft.
+✅ **5.3 Feature 2: Interactieve Taalgrafiek**  
+   - ✅ **Added InsightsScreen** with interactive language distribution visualization
+   - ✅ **Added InsightsViewModel** with language statistics calculation and filtering logic
+   - ✅ **Added LanguageStats data class** for tracking language distribution (count, percentage, repositories)
+   - ✅ **Extended navigation system** with InsightsScreen and filtered repository list routes
+   - ✅ **Updated RepoListViewModel** to support language filtering with `setLanguageFilter()` method
+   - ✅ **Updated RepoListScreen** to display filtered repositories with language-specific titles
+   - ✅ **Added Insights navigation button** to SearchScreen for easy access to language insights
+   - ✅ **Implemented interactive language chart** with clickable language items and visual progress bars
+   - ✅ **Added language color coding** with distinct colors for different programming languages
+   - ✅ **Enabled seamless navigation** from language insights to filtered repository lists
+   - ✅ **Added filtering UI** with clear filter buttons and visual selection indicators
 
 🔲 **5.4 Feature 3: Lokale Bladwijzers (Bookmarks)**  
    - Voeg de isBookmarked kolom toe aan de RepoEntity en RepoDao.
@@ -214,17 +228,17 @@ Onze filosofie: **Profesionele Elegantie**. We bouwen een strak, krachtig en ver
 | **Week 2** | ⚠️ Bijna Compleet | 83% | Room, Retrofit, Repository, Use Cases (tests pending) |
 | **Week 3** | ✅ Compleet | 100% | Volledige UI met alle schermen en navigatie |
 | **Week 4** | ✅ Compleet | 100% | Premium features: Notities ✅, Trending ✅, Geavanceerd themabeheer ✅, Settings & DataStore ✅, UI Polish ✅ |
-| **Week 5** | 🔲 Nog niet begonnen | 0% | GitHub Thema & 3 WOW Features |
+| **Week 5** | ⚠️ In Progress | 60% | GitHub Thema ✅, Rich Markdown Rendering ✅ (met fallback), Interactieve Taalgrafiek ✅, Lokale Bladwijzers 🔲, Finale UI-Polijst 🔲 |
 | **Week 6** | ⚠️ In Progress | 40% | Dependencies bijgewerkt ✅, Experimental API warnings opgelost ✅, Pull-to-refresh geïmplementeerd ✅ |
 
-**Totaal:** 72% compleet (Week 1-4 afgerond, Week 2.6, Week 5 volledig, en Week 6.2-6.4 nog te doen)
+**Totaal:** 77% compleet (Week 1-4 afgerond, Week 2.6, Week 5.1-5.3 afgerond, Week 5.4-5.5 en Week 6.2-6.4 nog te doen)
 
 ---
 
 ## 🎯 Prioriteiten voor Volgende Sessie
-1. **Week 2.6**: Unit tests afronden voor GetUserReposUseCase en RepoMapper
-2. **Week 5.1**: Het GitHub Thema Implementeren
-3. **Week 5.2**: Rich Markdown Rendering toevoegen
+1. **Week 5.4**: Lokale Bladwijzers (Bookmarks) toevoegen
+2. **Week 5.5**: Finale UI-Polijst & Animaties afronden
+3. **Week 6.2**: CI/CD Pipeline (GitHub Actions) implementeren
 
 ---
 

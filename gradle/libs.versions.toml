@@ -32,6 +32,8 @@ junit-jupiter = "5.10.3"
 mockk = "1.13.10"
 kotlinx-coroutines-test = "1.8.1"
 javax-inject = "1"
+compose-markdown = "0.6.0"
+timber = "5.0.1"
 
 [libraries]
 # AndroidX
@@ -98,6 +100,12 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 
 # Javax Inject
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javax-inject" }
+
+# Markdown
+compose-markdown = { module = "com.github.jeziellago:compose-markdown", version.ref = "compose-markdown" }
+
+# Timber Logging
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

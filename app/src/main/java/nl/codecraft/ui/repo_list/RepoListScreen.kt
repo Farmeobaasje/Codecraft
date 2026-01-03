@@ -59,12 +59,18 @@ import nl.codecraft.model.Repo
 @Composable
 fun RepoListScreen(
     username: String,
+    languageFilter: String?,
     onNavigateToRepoDetail: (Repo) -> Unit,
     onNavigateUp: () -> Unit,
     viewModel: RepoListViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsState()
     val isRefreshing = viewModel.isRefreshing.collectAsState()
+    
+    // Apply language filter if provided
+    LaunchedEffect(languageFilter) {
+        viewModel.setLanguageFilter(languageFilter)
+    }
     
     // Simple pull-to-refresh state
     var pullToRefreshOffset by remember { mutableStateOf(0f) }
@@ -130,8 +136,14 @@ fun RepoListScreen(
                 )
             }
             
+            val title = if (languageFilter != null) {
+                "$username's $languageFilter Repositories"
+            } else {
+                "$username's Repositories"
+            }
+            
             Text(
-                text = "$username's Repositories",
+                text = title,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,

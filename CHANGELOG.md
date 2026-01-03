@@ -91,6 +91,56 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - **Added ThemeModeDropdown component** with compact dropdown UI for selecting between Light, Dark, and System default modes
     - **Improved user experience** with cleaner, more modern UI that reduces visual clutter and takes less vertical space
     - **Maintained full functionality** with DataStore persistence and real-time theme updates
+- **Added Rich Markdown Rendering** for Week 5.2 completion:
+  - **Added GitHub API README endpoint** (GET /repos/{owner}/{repo}/readme) to GitHubApiService
+  - **Added ReadmeDto** for parsing GitHub README API responses with base64 content decoding support
+  - **Extended GitHubRepository interface** with `getReadme(owner: String, repo: String): String?` method
+  - **Updated GitHubRepositoryImpl** to implement README functionality with base64 decoding and error handling
+  - **Added GetReadmeUseCase** for domain layer README operations
+  - **Updated RepoDetailViewModel** with ReadmeState (Loading, Success, Error, Empty) and `loadReadme()` method
+  - **Enhanced RepoDetailScreen** with README section featuring plain text rendering (Markdown dependency temporarily removed due to dependency resolution issues)
+  - **Added README UI components** including loading states, error handling, and empty state
+  - **Fixed dependency resolution issues** by temporarily removing compose-markdown library and using plain text rendering as fallback
+- **Added Interactive Language Insights** for Week 5.3 completion:
+  - **Added InsightsScreen** with interactive language distribution visualization
+  - **Added InsightsViewModel** with language statistics calculation and filtering logic
+  - **Added LanguageStats data class** for tracking language distribution (count, percentage, repositories)
+  - **Extended navigation system** with InsightsScreen and filtered repository list routes
+  - **Updated RepoListViewModel** to support language filtering with `setLanguageFilter()` method
+  - **Updated RepoListScreen** to display filtered repositories with language-specific titles
+  - **Added Insights navigation button** to SearchScreen for easy access to language insights
+  - **Implemented interactive language chart** with clickable language items and visual progress bars
+  - **Added language color coding** with distinct colors for different programming languages
+- **Enabled seamless navigation** from language insights to filtered repository lists
+  - **Added filtering UI** with clear filter buttons and visual selection indicators
+- **Added default GitHub username preference** via settings:
+  - **Extended SettingsDataStore** with default username preference using DataStore
+  - **Updated ThemeRepository interface and implementation** with `getDefaultUsername()` and `updateDefaultUsername(username: String?)` methods
+  - **Enhanced SettingsViewModel** with default username state and update functionality
+  - **Updated SettingsScreen UI** with GitHub Settings section featuring username input field with save functionality
+  - **Modified InsightsViewModel** to use default username from ThemeRepository as fallback instead of hardcoded "Farmeobaasje"
+- **Improved README functionality** with better error handling and user experience:
+  - **Enhanced GitHubRepositoryImpl** with proper HTTP exception handling for README API calls (404, 403, etc.)
+  - **Updated RepoDetailViewModel** with improved error messages and empty content validation
+  - **Enhanced RepoDetailScreen UI** with retry button for failed README loads and better empty state messaging
+  - **Added user-friendly messages** explaining that some repositories don't have README files
+- **Revamped navigation structure** with bottom navigation and integrated home screen:
+  - **Added HomeScreen** with overview of default user's repositories, language insights, and statistics
+  - **Added HomeViewModel** for managing home screen state with repository loading and language insights
+  - **Added MainScreen** with bottom navigation bar (Home, Search, Settings) and integrated navigation
+  - **Updated MainActivity** to use MainScreen instead of old CodeCraftNavigation
+  - **Simplified SearchScreen** by removing trending and insights buttons, focusing only on search functionality
+  - **Updated Screen sealed class** with Home screen route for new navigation structure
+  - **Integrated insights functionality** into HomeScreen instead of separate InsightsScreen
+  - **Fixed compilation errors** in HomeScreen and HomeViewModel by properly handling Flow collections and adding @Composable annotations
+  - **Successfully built** the new navigation structure with all components working correctly
+- **Added Timber logging throughout the app** for better debugging and monitoring:
+  - **Added Timber dependency** to both app and data modules
+  - **Initialized Timber** in CodeCraftApplication with DebugTree for debug builds
+  - **Added logging** to MainActivity, MainActivityViewModel, MainScreen, HomeScreen, HomeViewModel, ThemeRepositoryImpl, and GitHubRepositoryImpl
+  - **Enhanced debugging capabilities** with lifecycle tracking, state changes, and API call monitoring
+- **Fixed HomeScreen crash** caused by nested scrolling issue where LazyColumn was placed inside a Column with verticalScroll modifier, creating infinite height constraints. Replaced LazyColumn with regular Column for the "Recent Repositories" section since only 5 items are displayed.
+- **Fixed HomeScreen showing wrong user's repositories**: Updated RepoDao and GitHubRepositoryImpl to filter repositories by username (ownerLogin) instead of returning all repositories from database. This ensures the HomeScreen shows repositories for the default username from settings, not the last searched user.
 
 ### Fixed
 - Diagnosed missing `gradle-wrapper.jar` issue that was preventing Gradle builds. The file was missing from the `gradle/wrapper` directory, causing "Could not find or load main class org.gradle.wrapper.GradleWrapperMain" error.
@@ -117,19 +167,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✅ JVM version incompatibility resolved
 - ✅ AndroidX configuration added
 - ✅ Android resource linking errors fixed (missing resources created)
-- ✅ `GitHubRepository` import fixed in DataModule (build now succeeds)
-- ✅ **Search bug fixed**: Repositories are now properly fetched from GitHub API when searching
-- ✅ **README.md updated**: Complete project documentation with features, tech stack, architecture, and roadmap
-- ✅ **Build successful**: Project compiles without errors (`gradlew build`)
-- ✅ **Tests successful**: All tests pass (`gradlew test`)
-- ✅ **Theme system implemented**: Dynamic theme switching with DataStore persistence
-- ✅ **SettingsScreen added**: Complete UI for theme preferences and app settings
-- ✅ **Navigation updated**: SettingsScreen integrated into navigation flow
-
-**Remaining Issues:**
-1. The `gradle-wrapper.jar` file is still invalid but bypassed by the fallback script.
-
-**Recommended Solutions:**
-1. For long-term fix: Open the project in Android Studio and let it regenerate the Gradle wrapper.
-2. Or install Gradle globally and run: `gradle wrapper --gradle-version 8.10` with Java 17 or 21.
-3. Check Android Gradle plugin version compatibility in `gradle/libs.versions.toml` (AGP 8.10.0 might be too new).
+- ✅ `GitHubRepository` import fixed in DataModule (build now

@@ -1,5 +1,6 @@
 package nl.codecraft.data.remote
 
+import nl.codecraft.data.remote.dto.ReadmeDto
 import nl.codecraft.data.remote.dto.RepoDto
 import nl.codecraft.data.remote.dto.SearchResponseDto
 import retrofit2.http.GET
@@ -17,4 +18,10 @@ interface GitHubApiService {
         @Query("order") order: String = "desc",
         @Query("per_page") perPage: Int = 10
     ): SearchResponseDto
+
+    @GET("repos/{owner}/{repo}/readme")
+    suspend fun getReadme(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String
+    ): ReadmeDto
 }

@@ -16,4 +16,7 @@ interface GitHubRepository {
     // Trending functionality
     fun getTrendingRepos(): Flow<List<Repo>>
     suspend fun refreshTrendingRepos()
+    
+    // README functionality
+    suspend fun getReadme(owner: String, repo: String): String?
 }

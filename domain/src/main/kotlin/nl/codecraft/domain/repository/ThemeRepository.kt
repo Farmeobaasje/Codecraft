@@ -27,4 +27,14 @@ interface ThemeRepository {
      * Update the theme style.
      */
     suspend fun updateThemeStyle(themeStyle: ThemeStyle)
+
+    /**
+     * Get the default GitHub username as a Flow.
+     */
+    fun getDefaultUsername(): Flow<String?>
+
+    /**
+     * Update the default GitHub username.
+     */
+    suspend fun updateDefaultUsername(username: String?)
 }

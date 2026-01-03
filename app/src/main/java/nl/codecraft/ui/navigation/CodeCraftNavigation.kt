@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import nl.codecraft.ui.insights.InsightsScreen
 import nl.codecraft.ui.repo_detail.RepoDetailScreen
 import nl.codecraft.ui.repo_list.RepoListScreen
 import nl.codecraft.ui.search.SearchScreen
@@ -28,9 +29,6 @@ fun CodeCraftNavigation(
                 },
                 onNavigateToSettings = {
                     navController.navigate(Screen.Settings.route)
-                },
-                onNavigateToTrending = {
-                    navController.navigate(Screen.Trending.route)
                 }
             )
         }
@@ -41,6 +39,22 @@ fun CodeCraftNavigation(
             val username = navBackStackEntry.arguments?.getString("username") ?: ""
             RepoListScreen(
                 username = username,
+                languageFilter = null,
+                onNavigateToRepoDetail = { repo ->
+                    navController.navigate(Screen.RepoDetail.createRoute(repo.id))
+                },
+                onNavigateUp = { navController.navigateUp() }
+            )
+        }
+        composable(
+            route = Screen.RepoListFiltered.route,
+            arguments = Screen.RepoListFiltered.arguments
+        ) { navBackStackEntry ->
+            val username = navBackStackEntry.arguments?.getString("username") ?: ""
+            val language = navBackStackEntry.arguments?.getString("language")
+            RepoListScreen(
+                username = username,
+                languageFilter = language,
                 onNavigateToRepoDetail = { repo ->
                     navController.navigate(Screen.RepoDetail.createRoute(repo.id))
                 },
@@ -69,12 +83,22 @@ fun CodeCraftNavigation(
                 }
             )
         }
+        composable(route = Screen.Insights.route) {
+            InsightsScreen(
+                onNavigateToRepoList = { language ->
+                    navController.navigate(Screen.RepoListFiltered.createRoute("Farmeobaasje", language))
+                },
+                onNavigateBack = { navController.navigateUp() }
+            )
+        }
     }
 }
 
 sealed class Screen(
     val route: String
 ) {
+    object Home : Screen("home")
+    
     object Search : Screen("search")
 
     object RepoList : Screen("repo_list/{username}") {
@@ -98,4 +122,20 @@ sealed class Screen(
     object Settings : Screen("settings")
 
     object Trending : Screen("trending")
+    
+    object Insights : Screen("insights")
+    
+    object RepoListFiltered : Screen("repo_list_filtered/{username}/{language}") {
+        fun createRoute(username: String, language: String?) = "repo_list_filtered/$username/${language ?: ""}"
+        val arguments = listOf(
+            navArgument("username") {
+                type = NavType.StringType
+            },
+            navArgument("language") {
+                type = NavType.StringType
+                nullable = true
+                defaultValue = ""
+            }
+        )
+    }
 }

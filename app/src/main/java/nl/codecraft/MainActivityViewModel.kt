@@ -8,12 +8,17 @@ import kotlinx.coroutines.flow.stateIn
 import nl.codecraft.domain.repository.ThemeRepository
 import nl.codecraft.model.ThemeOptions
 import nl.codecraft.model.ThemeStyle
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val themeRepository: ThemeRepository
 ) : ViewModel() {
+
+    init {
+        Timber.d("MainActivityViewModel created")
+    }
 
     val themeOption = themeRepository.getThemeOption()
         .stateIn(

@@ -76,6 +76,9 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
+    // Markdown - temporarily removed due to dependency resolution issues
+    // implementation("com.github.jeziellago:compose-markdown:0.6.0")
+
     // Hilt
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
@@ -83,6 +86,9 @@ dependencies {
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
+
+    // Timber
+    implementation(libs.timber)
 
     // Testing
     testImplementation(libs.junit)

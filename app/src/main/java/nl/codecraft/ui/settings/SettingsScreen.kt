@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -17,10 +18,12 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +46,13 @@ fun SettingsScreen(
 ) {
     val themeOption by viewModel.themeOption.collectAsState(initial = ThemeOptions.SYSTEM)
     val themeStyle by viewModel.themeStyle.collectAsState(initial = ThemeStyle.GITHUB)
+    val defaultUsername by viewModel.defaultUsername.collectAsState(initial = null)
+    
+    var usernameInput by remember { mutableStateOf("") }
+    
+    LaunchedEffect(defaultUsername) {
+        usernameInput = defaultUsername ?: ""
+    }
 
     Column(
         modifier = Modifier
@@ -100,6 +110,52 @@ fun SettingsScreen(
             selectedOption = themeOption,
             onOptionSelected = { viewModel.updateThemeOption(it) }
         )
+
+        // GitHub Settings Section
+        Text(
+            text = "GitHub Settings",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(top = 24.dp)
+        )
+
+        // Default GitHub Username
+        Text(
+            text = "Default GitHub Username",
+            style = MaterialTheme.typography.titleSmall,
+            modifier = Modifier.padding(top = 8.dp)
+        )
+
+        OutlinedTextField(
+            value = usernameInput,
+            onValueChange = { usernameInput = it },
+            label = { Text("Enter your GitHub username") },
+            placeholder = { Text("e.g., Farmeobaasje") },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+            trailingIcon = {
+                if (usernameInput.isNotEmpty()) {
+                    IconButton(
+                        onClick = {
+                            viewModel.updateDefaultUsername(usernameInput)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Save,
+                            contentDescription = "Save username"
+                        )
+                    }
+                }
+            }
+        )
+
+        if (defaultUsername != null) {
+            Text(
+                text = "Current default: $defaultUsername",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
 
         // Data & Storage Section
         Text(
