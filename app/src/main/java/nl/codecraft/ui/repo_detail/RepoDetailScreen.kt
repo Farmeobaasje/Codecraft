@@ -18,7 +18,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ForkRight
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Link
@@ -26,7 +25,6 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Note
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -36,16 +34,10 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -55,7 +47,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -73,9 +64,6 @@ fun RepoDetailScreen(
     val context = LocalContext.current
     var showNoteDialog by remember { mutableStateOf(false) }
     var noteText by remember { mutableStateOf("") }
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState()
-    )
 
     LaunchedEffect(repoId) {
         viewModel.loadRepo(repoId)
@@ -89,70 +77,111 @@ fun RepoDetailScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            LargeTopAppBar(
-                title = {
-                    Text(
-                        text = when (uiState) {
-                            is RepoDetailViewModel.UiState.Success -> {
-                                val repo = (uiState as RepoDetailViewModel.UiState.Success).repo
-                                repo.name
-                            }
-                            else -> "Repository Details"
-                        },
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
-                },
-                actions = {
-                    if (uiState is RepoDetailViewModel.UiState.Success) {
-                        IconButton(onClick = { showNoteDialog = true }) {
-                            Icon(
-                                imageVector = Icons.Default.Note,
-                                contentDescription = "Edit note"
-                            )
-                        }
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
-        }
-    ) { paddingValues ->
-        Column(
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        // Header row with back button, title and note button
+        Row(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            when (uiState) {
-                is RepoDetailViewModel.UiState.Loading -> {
+            IconButton(onClick = onNavigateUp) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back"
+                )
+            }
+            
+            Text(
+                text = when (uiState) {
+                    is RepoDetailViewModel.UiState.Success -> {
+                        val repo = (uiState as RepoDetailViewModel.UiState.Success).repo
+                        repo.name
+                    }
+                    else -> "Repository Details"
+                },
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f, fill = true).padding(horizontal = 8.dp)
+            )
+            
+            if (uiState is RepoDetailViewModel.UiState.Success) {
+                IconButton(onClick = { showNoteDialog = true }) {
+                    Icon(
+                        imageVector = Icons.Default.Note,
+                        contentDescription = "Edit note"
+                    )
+                }
+            }
+        }
+
+        when (uiState) {
+            is RepoDetailViewModel.UiState.Loading -> {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator()
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text("Loading repository details...")
+                }
+            }
+
+            is RepoDetailViewModel.UiState.Error -> {
+                val errorMessage = (uiState as RepoDetailViewModel.UiState.Error).message
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                ) {
                     Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        CircularProgressIndicator()
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text("Loading repository details...")
+                        Icon(
+                            imageVector = Icons.Default.Code,
+                            contentDescription = "Error",
+                            modifier = Modifier.size(48.dp),
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                        Text(
+                            text = "Error",
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                        Text(
+                            text = errorMessage,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Button(onClick = { viewModel.loadRepo(repoId) }) {
+                            Text("Retry")
+                        }
                     }
                 }
+            }
 
-                is RepoDetailViewModel.UiState.Error -> {
-                    val errorMessage = (uiState as RepoDetailViewModel.UiState.Error).message
+            is RepoDetailViewModel.UiState.Success -> {
+                val repo = (uiState as RepoDetailViewModel.UiState.Success).repo
+                val note = (uiState as RepoDetailViewModel.UiState.Success).note
+
+                // Note section
+                if (note != null && note.isNotEmpty()) {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -160,199 +189,155 @@ fun RepoDetailScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(24.dp),
-                            verticalArrangement = Arrangement.spacedBy(16.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                                .padding(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Code,
-                                contentDescription = "Error",
-                                modifier = Modifier.size(48.dp),
-                                tint = MaterialTheme.colorScheme.error
-                            )
-                            Text(
-                                text = "Error",
-                                style = MaterialTheme.typography.headlineMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.error
-                            )
-                            Text(
-                                text = errorMessage,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                textAlign = androidx.compose.ui.text.style.TextAlign.Center
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Button(onClick = { viewModel.loadRepo(repoId) }) {
-                                Text("Retry")
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Note,
+                                    contentDescription = "Note",
+                                    modifier = Modifier.size(20.dp),
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+                                Text(
+                                    text = "Personal Note",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
                             }
+                            Text(
+                                text = note,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
                         }
                     }
                 }
 
-                is RepoDetailViewModel.UiState.Success -> {
-                    val repo = (uiState as RepoDetailViewModel.UiState.Success).repo
-                    val note = (uiState as RepoDetailViewModel.UiState.Success).note
-
-                    // Note section
-                    if (note != null && note.isNotEmpty()) {
-                        Card(
-                            modifier = Modifier.fillMaxWidth(),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
+                            Icon(
+                                imageVector = Icons.Default.Code,
+                                contentDescription = "Repository",
+                                modifier = Modifier.size(32.dp),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
                             Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
                             ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Note,
-                                        contentDescription = "Note",
-                                        modifier = Modifier.size(20.dp),
-                                        tint = MaterialTheme.colorScheme.primary
-                                    )
+                                Text(
+                                    text = repo.name,
+                                    style = MaterialTheme.typography.headlineMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                if (repo.fullName.isNotEmpty()) {
                                     Text(
-                                        text = "Personal Note",
-                                        style = MaterialTheme.typography.titleMedium,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.primary
+                                        text = repo.fullName,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
+                            }
+                        }
+
+                        repo.description?.let { description ->
+                            if (description.isNotEmpty()) {
                                 Text(
-                                    text = note,
+                                    text = description,
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                             }
                         }
-                    }
 
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(24.dp),
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                        Divider()
+
+                        DetailRow(
+                            icon = Icons.Default.Person,
+                            label = "Owner",
+                            value = repo.owner.login
+                        )
+
+                        DetailRow(
+                            icon = Icons.Default.Star,
+                            label = "Stars",
+                            value = repo.stargazersCount.toString()
+                        )
+
+                        DetailRow(
+                            icon = Icons.Default.ForkRight,
+                            label = "Forks",
+                            value = repo.forksCount.toString()
+                        )
+
+                        repo.language?.let { language ->
+                            if (language.isNotEmpty()) {
+                                DetailRow(
+                                    icon = Icons.Default.Language,
+                                    label = "Language",
+                                    value = language
+                                )
+                            }
+                        }
+
+                        DetailRow(
+                            icon = Icons.Default.DateRange,
+                            label = "Updated",
+                            value = repo.updatedAt
+                        )
+
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(12.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Code,
-                                    contentDescription = "Repository",
-                                    modifier = Modifier.size(32.dp),
-                                    tint = MaterialTheme.colorScheme.primary
+                            if (repo.isPrivate) {
+                                DetailChip(
+                                    icon = Icons.Default.Lock,
+                                    label = "Private",
+                                    color = MaterialTheme.colorScheme.error
                                 )
-                                Column(
-                                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                                ) {
-                                    Text(
-                                        text = repo.name,
-                                        style = MaterialTheme.typography.headlineMedium,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.primary
-                                    )
-                                    if (repo.fullName.isNotEmpty()) {
-                                        Text(
-                                            text = repo.fullName,
-                                            style = MaterialTheme.typography.bodyMedium,
-                                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
-                                    }
-                                }
                             }
-
-                            repo.description?.let { description ->
-                                if (description.isNotEmpty()) {
-                                    Text(
-                                        text = description,
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        color = MaterialTheme.colorScheme.onSurface
-                                    )
-                                }
-                            }
-
-                            Divider()
-
-                            DetailRow(
-                                icon = Icons.Default.Person,
-                                label = "Owner",
-                                value = repo.owner.login
-                            )
-
-                            DetailRow(
-                                icon = Icons.Default.Star,
-                                label = "Stars",
-                                value = repo.stargazersCount.toString()
-                            )
-
-                            DetailRow(
-                                icon = Icons.Default.ForkRight,
-                                label = "Forks",
-                                value = repo.forksCount.toString()
-                            )
-
-                            repo.language?.let { language ->
-                                if (language.isNotEmpty()) {
-                                    DetailRow(
-                                        icon = Icons.Default.Language,
-                                        label = "Language",
-                                        value = language
-                                    )
-                                }
-                            }
-
-                            DetailRow(
-                                icon = Icons.Default.DateRange,
-                                label = "Updated",
-                                value = repo.updatedAt
-                            )
-
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                if (repo.isPrivate) {
-                                    DetailChip(
-                                        icon = Icons.Default.Lock,
-                                        label = "Private",
-                                        color = MaterialTheme.colorScheme.error
-                                    )
-                                }
-                                if (repo.isFork) {
-                                    DetailChip(
-                                        icon = Icons.Default.ForkRight,
-                                        label = "Fork",
-                                        color = MaterialTheme.colorScheme.tertiary
-                                    )
-                                }
-                            }
-
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Button(
-                                onClick = {
-                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(repo.htmlUrl))
-                                    context.startActivity(intent)
-                                },
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Link,
-                                    contentDescription = "Open on GitHub",
-                                    modifier = Modifier.size(20.dp)
+                            if (repo.isFork) {
+                                DetailChip(
+                                    icon = Icons.Default.ForkRight,
+                                    label = "Fork",
+                                    color = MaterialTheme.colorScheme.tertiary
                                 )
-                                Spacer(modifier = Modifier.size(8.dp))
-                                Text("Open on GitHub")
                             }
+                        }
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Button(
+                            onClick = {
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(repo.htmlUrl))
+                                context.startActivity(intent)
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Link,
+                                contentDescription = "Open on GitHub",
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(modifier = Modifier.size(8.dp))
+                            Text("Open on GitHub")
                         }
                     }
                 }

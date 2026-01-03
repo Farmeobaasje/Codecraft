@@ -112,53 +112,56 @@ fun RepoListScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "$username's Repositories",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
-                },
-                actions = {
-                    if (isPullToRefreshing || isRefreshing.value) {
-                        IconButton(
-                            onClick = { viewModel.refresh() },
-                            enabled = !isPullToRefreshing && !isRefreshing.value
-                        ) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(24.dp),
-                                strokeWidth = 2.dp
-                            )
-                        }
-                    } else {
-                        IconButton(onClick = { viewModel.refresh() }) {
-                            Icon(
-                                imageVector = Icons.Default.Refresh,
-                                contentDescription = "Refresh"
-                            )
-                        }
-                    }
-                }
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        // Header row with back button, title and refresh button
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = onNavigateUp) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back"
+                )
+            }
+            
+            Text(
+                text = "$username's Repositories",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f, fill = true).padding(horizontal = 8.dp)
             )
+            
+            if (isPullToRefreshing || isRefreshing.value) {
+                IconButton(
+                    onClick = { viewModel.refresh() },
+                    enabled = !isPullToRefreshing && !isRefreshing.value
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(24.dp),
+                        strokeWidth = 2.dp
+                    )
+                }
+            } else {
+                IconButton(onClick = { viewModel.refresh() }) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = "Refresh"
+                    )
+                }
+            }
         }
-    ) { paddingValues ->
+        
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
                 .nestedScroll(nestedScrollConnection)
         ) {
             // Pull-to-refresh indicator
@@ -239,27 +242,10 @@ fun RepoListScreen(
                             items = state.repos,
                             key = { _, repo -> repo.id }
                         ) { index, repo ->
-                            AnimatedVisibility(
-                                visible = true,
-                                enter = fadeIn(
-                                    animationSpec = tween(
-                                        durationMillis = 300,
-                                        delayMillis = index * 50
-                                    )
-                                ) + slideInVertically(
-                                    animationSpec = tween(
-                                        durationMillis = 300,
-                                        delayMillis = index * 50
-                                    ),
-                                    initialOffsetY = { it / 2 }
-                                ),
-                                modifier = Modifier.animateItemPlacement()
-                            ) {
-                                RepoItem(
-                                    repo = repo,
-                                    onClick = { onNavigateToRepoDetail(repo) }
-                                )
-                            }
+                            RepoItem(
+                                repo = repo,
+                                onClick = { onNavigateToRepoDetail(repo) }
+                            )
                         }
                     }
                 }
