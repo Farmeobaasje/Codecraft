@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CodeCraft</string>
+    
+    <!-- Settings Screen -->
+    <string name="settings_title">Settings</string>
+    <string name="back">Back</string>
+    
+    <!-- Appearance Section -->
+    <string name="appearance_section_title">Appearance</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">System default</string>
+    
+    <!-- Data & Storage Section -->
+    <string name="data_storage_section_title">Data &amp; Storage</string>
+    
+    <!-- About Section -->
+    <string name="about_section_title">About</string>
+</resources>

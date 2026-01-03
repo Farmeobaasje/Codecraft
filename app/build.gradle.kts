@@ -1,8 +1,9 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt.android)
-    alias(libs.plugins.ksp)
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -42,7 +43,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
     packaging {
         resources {
@@ -77,7 +78,7 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
-    ksp(libs.hilt.compiler)
+    kapt(libs.hilt.compiler)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)

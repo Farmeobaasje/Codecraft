@@ -49,3 +49,26 @@ fun RepoEntity.toRepo(): Repo {
         isFork = isFork,
     )
 }
+
+fun RepoDto.toRepo(): Repo {
+    return Repo(
+        id = id,
+        name = name,
+        fullName = fullName,
+        description = description,
+        htmlUrl = htmlUrl,
+        stargazersCount = stargazersCount,
+        forksCount = forksCount,
+        language = language,
+        owner = Owner(
+            id = owner.id,
+            login = owner.login,
+            avatarUrl = owner.avatarUrl,
+            htmlUrl = owner.htmlUrl,
+            type = owner.type,
+        ),
+        updatedAt = updatedAt,
+        isPrivate = isPrivate,
+        isFork = isFork,
+    )
+}

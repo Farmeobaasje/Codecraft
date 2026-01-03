@@ -1,9 +1,9 @@
 [versions]
 # Plugins
-agp = "8.10.0"
-kotlin = "2.0.21"
+agp = "8.6.0"
+kotlin = "1.9.24"
 hilt = "2.52"
-ksp = "2.0.21-1.0.21"
+ksp = "1.9.24-1.0.19"
 
 # Android
 compileSdk = "34"
@@ -14,10 +14,11 @@ targetSdk = "34"
 androidx-core = "1.13.1"
 androidx-lifecycle = "2.8.2"
 androidx-activity-compose = "1.9.3"
-androidx-compose-bom = "2024.10.00"
+androidx-compose-bom = "2024.11.00"
 androidx-compose-compiler = "1.5.14"
-androidx-navigation-compose = "2.7.7"
+androidx-navigation-compose = "2.8.0"
 androidx-room = "2.6.1"
+androidx-datastore = "1.1.1"
 androidx-test = "1.5.0"
 androidx-test-ext = "1.1.5"
 androidx-espresso = "3.5.1"
@@ -27,6 +28,9 @@ retrofit = "2.11.0"
 okhttp = "4.12.0"
 moshi = "1.15.1"
 junit = "4.13.2"
+junit-jupiter = "5.10.3"
+mockk = "1.13.10"
+kotlinx-coroutines-test = "1.8.1"
 javax-inject = "1"
 
 [libraries]
@@ -51,6 +55,9 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
+
+# DataStore
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 
 # Retrofit
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
@@ -81,6 +88,13 @@ androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core",
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+
+# Modern Testing Libraries
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
 
 # Javax Inject
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javax-inject" }
